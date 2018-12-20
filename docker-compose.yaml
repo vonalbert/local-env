@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  mysql_55:
+    container_name: 'mysql-5.5'
+    restart: always
+    build:
+      context: .
+      target: mysql
+      args: { MYSQL_VERSION: 5.5 }
+    ports: [ '33055:3306' ]
+
+
+
+  mysql_57:
+    container_name: 'mysql-5.7'
+    restart: always
+    build:
+      context: .
+      target: mysql
+      args: { MYSQL_VERSION: 5.7 }
+    ports: [ '33057:3306' ]
+
+
+
+  pgsql_96:
+    container_name: 'postgres-9.6'
+    restart: always
+    build:
+      context: .
+      target: postgres
+      args: { PGSQL_VERSION: 9.6 }
+    ports: [ '54096:3306' ]
+
+
+
+  mailhog:
+    container_name: 'mailhog'
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - '1025:1025'
+      - '8025:8025'
