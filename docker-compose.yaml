@@ -30,7 +30,7 @@ services:
       context: .
       target: postgres
       args: { PGSQL_VERSION: 9.6 }
-    ports: [ '54096:3306' ]
+    ports: [ '54096:5432' ]
 
 
 
@@ -41,7 +41,7 @@ services:
       context: .
       target: postgres
       args: { PGSQL_VERSION: 11 }
-    ports: [ '54011:3306' ]
+    ports: [ '54011:5432' ]
 
 
 
