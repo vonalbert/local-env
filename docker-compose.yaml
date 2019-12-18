@@ -3,45 +3,58 @@ version: '3.7'
 services:
   mysql_55:
     container_name: 'mysql-5.5'
+    image: 'mysql:5.5'
     restart: always
-    build:
-      context: .
-      target: mysql
-      args: { MYSQL_VERSION: 5.5 }
-    ports: [ '33055:3306' ]
+    command: '--character-set-server=utf8 --collation-server=utf8_general_ci'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - '33055:3306'
+    volumes:
+      - './volumes/mysql/5.5:/var/lib/mysql'
 
 
 
   mysql_57:
     container_name: 'mysql-5.7'
+    image: 'mysql:5.7'
     restart: always
-    build:
-      context: .
-      target: mysql
-      args: { MYSQL_VERSION: 5.7 }
-    ports: [ '33057:3306' ]
+    command: '--character-set-server=utf8 --collation-server=utf8_general_ci'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - '33057:3306'
+    volumes:
+      - './volumes/mysql/5.7:/var/lib/mysql'
 
 
 
   pgsql_96:
     container_name: 'postgres-9.6'
+    image: 'postgres:9.6'
     restart: always
-    build:
-      context: .
-      target: postgres
-      args: { PGSQL_VERSION: 9.6 }
-    ports: [ '54096:5432' ]
-
+    environment:
+      POSTGRES_PASSWORD: 'password'
+    ports:
+      - '54096:5432'
+    volumes:
+      - './volumes/postgres/9.6:/var/lib/postgresql/data'
 
 
   pgsql_11:
     container_name: 'postgres-11'
+    image: 'postgres:11'
     restart: always
-    build:
-      context: .
-      target: postgres
-      args: { PGSQL_VERSION: 11 }
-    ports: [ '54011:5432' ]
+    environment:
+      POSTGRES_PASSWORD: 'password'
+    ports:
+      - '54011:5432'
+    volumes:
+      - './volumes/postgres/11:/var/lib/postgresql/data'
 
 
 
@@ -52,3 +65,14 @@ services:
     ports:
       - '1025:1025'
       - '8025:8025'
+
+
+
+  portainer:
+    container_name: 'portainer'
+    image: portainer/portainer
+    restart: always
+    ports:
+      - '9000:9000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
