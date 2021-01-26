@@ -4,8 +4,11 @@ services:
   mysql_55:
     container_name: 'mysql-5.5'
     image: 'mysql:5.5'
-    restart: always
-    command: '--character-set-server=utf8 --collation-server=utf8_general_ci --max-allowed-packet=1073741824'
+    restart: 'unless-stopped'
+    command:
+      - '--character-set-server=utf8'
+      - '--collation-server=utf8_general_ci'
+      - '--max-allowed-packet=1073741824'
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_ROOT_HOST: '%'
@@ -20,8 +23,11 @@ services:
   mysql_57:
     container_name: 'mysql-5.7'
     image: 'mysql:5.7'
-    restart: always
-    command: '--character-set-server=utf8 --collation-server=utf8_general_ci --max-allowed-packet=1073741824'
+    restart: 'unless-stopped'
+    command:
+      - '--character-set-server=utf8'
+      - '--collation-server=utf8_general_ci'
+      - '--max-allowed-packet=1073741824'
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_ROOT_HOST: '%'
@@ -36,7 +42,7 @@ services:
   pgsql_96:
     container_name: 'postgres-9.6'
     image: 'postgres:9.6'
-    restart: always
+    restart: 'unless-stopped'
     environment:
       POSTGRES_PASSWORD: 'password'
     ports:
@@ -48,7 +54,7 @@ services:
   pgsql_11:
     container_name: 'postgres-11'
     image: 'postgres:11'
-    restart: always
+    restart: 'unless-stopped'
     environment:
       POSTGRES_PASSWORD: 'password'
     ports:
@@ -61,7 +67,7 @@ services:
   mailhog:
     container_name: 'mailhog'
     image: mailhog/mailhog
-    restart: always
+    restart: 'unless-stopped'
     ports:
       - '1025:1025'
       - '8025:8025'
@@ -70,9 +76,13 @@ services:
 
   portainer:
     container_name: 'portainer'
-    image: portainer/portainer
-    restart: always
+    image: portainer/portainer-ce
+    restart: 'unless-stopped'
+    command:
+      - '--admin-password-file=/tmp/admin_password'
     ports:
-      - '9000:9000'
+      - '9009:9000'
+      - '9008:8000'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - './volumes/portainer/admin_password:/tmp/admin_password'
